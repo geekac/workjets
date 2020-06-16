@@ -11,6 +11,29 @@ import setuptools
 with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
+
+CLASSIFIERS = """\
+Development Status :: 5 - Production/Stable
+Intended Audience :: Science/Research
+Intended Audience :: Developers
+License :: OSI Approved
+Programming Language :: C
+Programming Language :: Python
+Programming Language :: Python :: 3
+Programming Language :: Python :: 3.6
+Programming Language :: Python :: 3.7
+Programming Language :: Python :: 3.8
+Programming Language :: Python :: 3 :: Only
+Programming Language :: Python :: Implementation :: CPython
+Topic :: Software Development
+Topic :: Scientific/Engineering
+Operating System :: Microsoft :: Windows
+Operating System :: POSIX
+Operating System :: Unix
+Operating System :: MacOS
+"""
+
+
 setuptools.setup(
     name="workjets",
     version="0.1.0",
@@ -21,9 +44,5 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/geekac/workjets",
     packages=setuptools.find_packages(),
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
+    classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
 )
