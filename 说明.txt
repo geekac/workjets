@@ -1,0 +1,73 @@
+
+
+一、   在指定文件夹workjets(根目录) 下 运行git Bash here
+       执行git init
+       执行 git clone https://github.com/geekac/workjets.git 【不要使用这个】
+	git remote add workjets https://github.com/geekac/workjets.git
+	git pull workjets master
+
+
+		
+关于路径的说明：
+    总的项目路径是workjets(根目录)
+    在根目录下 setup.py -> setuptools.setup(name="p_workjets",...)     # 这里为了区分改为p_workjets
+        name后面是pip包的名字 也将通过 import p_workjets来使用这个包
+        在根目录下创建p_workjets文件夹
+        p_workjets下的文件夹是该库的功能模块 也可以有setup.py文件， py文件是另一种方式加载的
+
+    编写完程序后，下面开始打包
+
+
+关于打包的说明：
+# 参考 https://blog.csdn.net/diansiji9321/article/details/102075723
+
+    第一步，编写setup.py文件：相当于配置文件，说明版本 依赖库等信息
+    第二步，两种打包的方式
+        2.1 使用sdist命令(用于源码发布的形式)
+            执行顺序python setup.py build
+                   python setup.py sdist    --这样陌生生成的事.egg和tar.gz
+                   python setup.py install
+        2.2 使用bdist命令（用于创建windows或linux的安装程序)
+            python setup.py bdist_wininst ===  python setup.py bdist --formats=wininst
+            Python setup.py bdist_msi ===   python setup.py bdist --format=msi
+            python setup.py bdist_rpm ===   python setup.py bdist -- format=rpm
+
+            不建议使用。一般都是使用pip install 即可，弄个图形安装界面忒变态
+
+         【重要】 打包成whl python setup.py bdist_wheel
+
+
+使用 twine 将打包好的库/项目上传到PYPI：
+
+    1. 创建pypi账户
+    2. 配置twine，记录账户信息。
+       在C:\Users\Administrator创建 .pypirc. 文件，注意是前后各有一个点
+       .pypirc文件中写入内容为：
+            [distutils]
+            index-servers = pypi
+
+            [pypi]
+            username:geekac      用户名
+            password:.fu         密码
+
+    3. 打包上传
+    python setup.py sdist upload -r pypi
+
+
+
+
+二   最后
+     上传代码到github
+
+        git add .                   （注：别忘记后面的.，此操作是把Test文件夹下面的文件都添加进来）
+        git commit  -m  "提交信息"   （注：“提交信息”里面换成你需要，如“first commit”）
+
+        指定要上传的库
+            git remote add workjets https://github.com/geekac/workjets.git
+             git push --set-upstream workjets master
+
+             
+        git push -u origin master   （注：此操作目的是把本地仓库push到github上面，此步骤需要你输入帐号和密码）
+
+
+
