@@ -1,5 +1,4 @@
 
-
 一、   在指定文件夹workjets(根目录) 下 运行git Bash here
        执行git init
        执行 git clone https://github.com/geekac/workjets.git 【不要使用这个】
@@ -56,18 +55,15 @@
 
 
 
-二   最后
-     上传代码到github
+二   最后    上传代码到github
 
         git add .                   （注：别忘记后面的.，此操作是把Test文件夹下面的文件都添加进来）
         git commit  -m  "提交信息"   （注：“提交信息”里面换成你需要，如“first commit”）
 
         指定要上传的库
             git remote add workjets https://github.com/geekac/workjets.git
-             git push --set-upstream workjets master
-
-             
-        git push -u origin master   （注：此操作目的是把本地仓库push到github上面，此步骤需要你输入帐号和密码）
+            git push --set-upstream workjets master
+            git push -u origin master   （注：此操作目的是把本地仓库push到github上面，此步骤需要你输入帐号和密码）
 
 
 
