@@ -33,10 +33,19 @@ Operating System :: Unix
 Operating System :: MacOS
 """
 
+# todo: 项目依赖包
+install_requires = [
+    'medpy>=0.4.0',
+    'torch>=1.0.1',
+    'numpy',
+
+]
+
+
 
 setuptools.setup(
     name="workjets",
-    version="0.1.0",
+    version="0.1.1",
     author="geekac",
     author_email="geekac@163.com",
     description="A common using tools library for work efficiently.",
@@ -45,4 +54,8 @@ setuptools.setup(
     url="https://github.com/geekac/workjets",
     packages=setuptools.find_packages(),
     classifiers=[_f for _f in CLASSIFIERS.split('\n') if _f],
+    platforms=["Windows", "Linux", "Solaris", "Mac OS-X", "Unix"],
+    install_requires=install_requires,
+    license='MIT',
+
 )
