@@ -63,7 +63,7 @@
         指定要上传的库
             git remote add workjets https://github.com/geekac/workjets.git
             git push --set-upstream workjets master
-            git push -u origin master   （注：此操作目的是把本地仓库push到github上面，此步骤需要你输入帐号和密码）
+            git push -u workjets master   （注：此操作目的是把本地仓库push到github上面，此步骤需要你输入帐号和密码）
 
 
 
