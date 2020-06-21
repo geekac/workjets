@@ -10,8 +10,6 @@ import torch.nn as nn
 
 from enum import Enum, unique
 
-from pandas.core.reshape import api
-
 
 @unique
 class NetTypes(Enum):
@@ -23,7 +21,6 @@ class NetTypes(Enum):
 
     def __str__(self):
         return self._name_
-
 
 
 

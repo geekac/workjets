@@ -3,8 +3,8 @@ import importlib
 import torch
 import torch.nn as nn
 
-from networks.Unet3D.buildingblocks import Encoder, Decoder, FinalConv, DoubleConv, ExtResNetBlock, SingleConv
-from networks.Unet3D.utils import create_feature_maps
+from .buildingblocks import Encoder, Decoder, FinalConv, DoubleConv, ExtResNetBlock, SingleConv
+from .utils import create_feature_maps
 
 
 class UNet3D(nn.Module):
