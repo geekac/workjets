@@ -10,6 +10,8 @@ import torch.nn as nn
 
 from enum import Enum, unique
 
+from pandas.core.reshape import api
+
 
 @unique
 class NetTypes(Enum):
@@ -27,7 +29,8 @@ class NetTypes(Enum):
 
 def get_networks(net_type, config):
     if net_type == NetTypes.UNet3D:
-        from .Unet3D.unet3d import UNet3D
+        from workjets.torchnets.Unet3D.unet3d import UNet3D
+        # from .Unet3D.unet3d import UNet3D
         model = UNet3D(
             in_channels=config.UNet3D.in_channels,
             out_channels=config.UNet3D.out_channels,
@@ -37,7 +40,8 @@ def get_networks(net_type, config):
         )
 
     elif net_type == NetTypes.ResidualUNet3D:
-        from .Unet3D.unet3d import ResidualUNet3D
+        from workjets.torchnets.Unet3D.unet3d import ResidualUNet3D
+        # from .Unet3D.unet3d import ResidualUNet3D
         model = ResidualUNet3D(
             in_channels=config.ResidualUNet3D.in_channels,
             out_channels=config.ResidualUNet3D.out_channels,
@@ -47,7 +51,8 @@ def get_networks(net_type, config):
         )
 
     elif net_type == NetTypes.RAUnet3D:
-        from .RAUnet3D.RAUnet3D import RAUnet3D
+        from workjets.torchnets.RAUnet3D.RAUnet3D import RAUnet3D
+        # from .RAUnet3D.RAUnet3D import RAUnet3D
         model = RAUnet3D(
             in_channels=config.RAUnet3D.in_channels,
             out_channels=config.RAUnet3D.out_channels,

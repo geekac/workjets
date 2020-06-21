@@ -45,7 +45,7 @@ install_requires = [
 
 setuptools.setup(
     name="workjets",
-    version="0.1.1",
+    version="0.1.2",
     author="geekac",
     author_email="geekac@163.com",
     description="A common using tools library for work efficiently.",
