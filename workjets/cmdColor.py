@@ -54,7 +54,7 @@ std_out_handle = ctypes.windll.kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
 
 
 def set_cmd_text_color(color, handle=std_out_handle):
-    Bool = ctypes.windll.kernel32.SetConsoleTextAttribute(handle, color)
+    Bool = ctypes.windll.kernel32.SetConsoleTextAttribute(handle, color) # color不是形参名字  因此不能写color=...
     return Bool
 
 
