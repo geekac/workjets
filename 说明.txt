@@ -24,7 +24,7 @@
     第二步，两种打包的方式
         2.1 使用sdist命令(用于源码发布的形式)
             执行顺序python setup.py build
-                   python setup.py sdist    --这样陌生生成的事.egg和tar.gz
+                   python setup.py sdist    --这样默认生成的是.egg和tar.gz
                    python setup.py install
         2.2 使用bdist命令（用于创建windows或linux的安装程序)
             python setup.py bdist_wininst ===  python setup.py bdist --formats=wininst
