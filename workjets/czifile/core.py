@@ -6,8 +6,10 @@
     @ author: achange
 """
 
+import os
 import _czifile as czifile
 import numpy as np
+from PIL import Image
 
 
 class CziFile(object):
@@ -28,34 +30,49 @@ class CziFile(object):
     """
     def __init__(self, czi_file):
         self.czi_file = czi_file
-        self.subblock_number = czi_file.cnt_subblocks(czi_file)
+        self.subblock_number = czifile.cnt_subblocks(czi_file)
+
+        # todo: 设置subblock保存为图像时的  文件名规范
+        self.fname_pattern = "subblock_{:0>" + str(len(str(self.subblock_number))) + "}.jpg"
 
         # whether to use czifile or pylibczi for reading the czi file.
         # Other library to read czifile : https://www.lfd.uci.edu/~gohlke/code/czifile.py.html
 
-    def get_subblock_data(self, idx: int) -> np.ndarray:
+    def get_subblock_data(self, idx: int):
         """
             获取指定idx的subblock data: np.ndarray
         """
-        if idx < 1:
+        if idx < 0:
             raise ValueError("index must be ≥ 0!")
         if idx > self.subblock_number - 1:
             raise ValueError("index out of range")
 
-        *_, data = czifile.cziread_subblock(self.czi_file, idx)
-        return data
+        *info, data = czifile.cziread_subblock(self.czi_file, idx)
+        return info, data
 
-    def save_subblock_data_to_jpg(self, data, file):
+    @staticmethod
+    def save_subblock_data_to_jpg(info, data, file):
         """
             subblock数据保存为图像
         """
-        pass
+        height, width = info[1]
+        data = data.reshape(height, width, 3)
 
-    def save_all_subblocks(self, file, zoom=1.):
+        img_data = np.empty(shape=(height, width, 3), dtype=np.uint8)
+        img_data[:, :, 0] = data[:, :, 2].reshape(height, width)
+        img_data[:, :, 1] = data[:, :, 1].reshape(height, width)
+        img_data[:, :, 2] = data[:, :, 0].reshape(height, width)
+
+        Image.fromarray(img_data).save(file)
+
+    def save_all_subblocks(self, save_dir, zoom=1.):
         for i in range(self.subblock_number):
-            _, _, t_zoom, data = czifile.cziread_subblock(self.czi_file, i)
+            fname = self.fname_pattern.format(i+1)
+            file = os.path.join(save_dir, fname)
+
+            *info, t_zoom, data = czifile.cziread_subblock(self.czi_file, i)
             if t_zoom == zoom:
-                self.save_subblock_data_to_jpg(data, file)
+                self.save_subblock_data_to_jpg(info, data, file)
 
     def get_total_img(self):
         """将czi文件按照1:1展示为图像  返回图像的np.ndarray数据

@@ -180,7 +180,7 @@ static PyObject *cziread_subblock(PyObject *self, PyObject *args) {
 	logicalRect_y = info.logicalRect.y;
 	physicalSize_h = info.physicalSize.h;
 	physicalSize_w = info.physicalSize.w;
-	cout << info.logicalRect.h << info.logicalRect.w << info.physicalSize << endl;
+	//cout << info.logicalRect.h << info.logicalRect.w << info.physicalSize << endl;
 	zoom = info.GetZoom();
 
 	//获取subblock的np.ndarray数据：
@@ -221,6 +221,9 @@ static PyObject *cziread_subblock(PyObject *self, PyObject *args) {
 	void *pointer = PyArray_DATA(subblock0);
 	npy_byte *cptr = (npy_byte*)pointer;
 	std::memcpy(cptr, cimgptr, height*width*channels);
+
+    bm->Unlock(); // TODO TODO TODO FIXME  关闭 节约内存
+	cziReader->Close(); // TODO TODO TODO FIXME
 
 	return Py_BuildValue("(i,i)(I,I)dO",
 		logicalRect_x, logicalRect_y, physicalSize_h, physicalSize_w, zoom, (PyObject *)subblock0
