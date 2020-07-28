@@ -46,11 +46,15 @@
             index-servers = pypi
 
             [pypi]
-            username:geekac      用户名
-            password:.fu         密码
+            username:geekac         用户名
+            password: .f..k.         密码
 
     3. 打包上传
-    python setup.py sdist upload -r pypi
+       python setup.py sdist upload -r pypi
+       
+       如果需要上传的是whl： 利用twine
+       	   python -m pip install --upgrade twine
+	   python3 -m twine upload dist/*   (或者dist/*.whl)
 
 
 
