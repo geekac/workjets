@@ -169,7 +169,7 @@ def ext_module_czi():
 
     module_czi = Extension(
         EXTENSION_MODEL_NAME,
-        define_macros=[('CZIFILE_VERSION', "0.1.4"), ],
+        define_macros=[('CZIFILE_VERSION', "0.1.5"), ],
         include_dirs=include_dirs,
         libraries=libraries,
         library_dirs=library_dirs,
