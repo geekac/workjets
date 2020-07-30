@@ -65,7 +65,28 @@ def get_networks(net_type, config):
     else:
         raise NotImplementedError('Model `{}` have not been implemented.'.format(str(net_type)))
 
-    # todo: 将model 放在指定设备GPU/CPU上计算
+    
+    # todo: 将model 放在指定设备GPU/CPU上计算  For test
+    if config.stage == 'test':
+        if config.use_multi_gpu:    # 如果训练时候采用多GPU训练  测试加载吗模型需要dataParallel一下
+            model = nn.DataParallel(model)
+
+        if config.device == 'cpu':
+            print('[Info] Computing on CPU.')
+            device = torch.device('cpu')
+
+        elif config.device == 'cuda':
+            print('[Info] Computing on CUDA.')
+            device = torch.device('cuda')
+
+        else:
+            raise ValueError("Patameter `config.device` must be cpu or cuda, check it.")
+
+        model.to(device)
+        return model
+    
+    
+    # todo: 将model 放在指定设备GPU/CPU上计算  For train
     if config.device == 'cpu':
         print('[info] Computing on CPU.')
         device = torch.device('cpu')
@@ -73,14 +94,14 @@ def get_networks(net_type, config):
     elif config.device == 'cuda':
         gpu_nums = torch.cuda.device_count()
         if torch.cuda.is_available():
-            if gpu_nums > 1:
+            if gpu_nums > 1 and config.use_multi_gpu:
                 # todo: DataParallel默认将模型输出放在cuda:0,使用DataParallel后模型类方法的访问使用`modle.module.METHOD_NAME`
-                print('[info] Computing on Multi-GPUs.')
+                print('[Info] Computing on Multi-GPUs.')
                 device = torch.device('cuda')
                 model = nn.DataParallel(model)
                 model.to(device)
             else:
-                print('[info] Computing on Single GPU.')
+                print('[Info] Computing on Single GPU.')
                 device = torch.device('cuda:0')
                 model.to(device)
         else:
