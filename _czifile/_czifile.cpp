@@ -212,22 +212,32 @@ static PyObject *cziread_subblock(PyObject *self, PyObject *args) {
 	}
 
 	npy_intp eshp[1]; eshp[0] = height*width*channels;	// 返回图像数组shape=(h*w*c, )
-	PyArrayObject *subblock0 = (PyArrayObject *)PyArray_Empty(1, eshp, PyArray_DescrFromType(NPY_UINT8), 0);
+	PyArrayObject *subblock = (PyArrayObject *)PyArray_Empty(1, eshp, PyArray_DescrFromType(NPY_UINT8), 0);
 
 	// 开始读取数据  并写入到np数组
 	auto bitmap = bm->Lock();
 	uint8 *cimgptr = (uint8*)bitmap.ptrDataRoi;
 
-	void *pointer = PyArray_DATA(subblock0);
+	void *pointer = PyArray_DATA(subblock);
 	npy_byte *cptr = (npy_byte*)pointer;
 	std::memcpy(cptr, cimgptr, height*width*channels);
-
-    bm->Unlock(); // TODO TODO TODO FIXME  关闭 节约内存
+	
+	//已经证实 读取subblock不释放内存的原因不是下面的因素，而是subblock的引用计数一直保存着一个在C代码中没有释放
+        bm->Unlock(); // TODO TODO TODO FIXME  关闭 节约内存
 	cziReader->Close(); // TODO TODO TODO FIXME
-
+	
+	/*
 	return Py_BuildValue("(i,i)(I,I)dO",
-		logicalRect_x, logicalRect_y, physicalSize_h, physicalSize_w, zoom, (PyObject *)subblock0
+		logicalRect_x, logicalRect_y, physicalSize_h, physicalSize_w, zoom, (PyObject *)subblock
 	);
+	*/
+	
+	PyObject *res = Py_BuildValue("(i,i)(I,I)dO",
+		logicalRect_x, logicalRect_y, physicalSize_h, physicalSize_w, zoom, subblock
+	);
+	
+	Py_DECREF(subblock);
+	return res;
 }
 
 
