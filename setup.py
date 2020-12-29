@@ -53,7 +53,7 @@ setuptools.setup(
     version="0.1.5",
     author="geekac",
     author_email="geekac@163.com",
-    description="A common using tools library for work efficiently.",
+    description="A common using tools library for working efficiently.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/geekac/workjets",
