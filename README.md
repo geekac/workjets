@@ -1,2 +1,2 @@
 # workjets
-A common using tools library for work efficiently.
+A common using tools library for working efficiently.

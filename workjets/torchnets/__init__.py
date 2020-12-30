@@ -8,6 +8,7 @@
 import torch
 import torch.nn as nn
 
+from collections import OrderedDict
 from enum import Enum, unique
 
 
@@ -110,6 +111,36 @@ def get_networks(net_type, config):
             model.to(device)
 
     return model
+
+
+# todo: 网络模型参数转换  多GPU转到单个  单个转多个
+def single2multi(modelfile):
+    """
+        # todo: use model para:  net.load_state_dict(multi_model_dict)
+    """
+    model_dict = torch.load(modelfile)
+    multi_model_dict = OrderedDict()
+    if not list(model_dict.keys())[0].startswith('module.'):
+        for k, v in model_dict.items():
+            modified_key = 'module.' + k
+            multi_model_dict[modified_key] = v
+    return multi_model_dict
+
+
+def multi2single(modelfile):
+    model_dict = torch.load(modelfile)
+    single_model_dict = OrderedDict()
+    if list(model_dict.keys())[0].startswith('module.'):
+        for k, v in model_dict.items():
+            modified_key = k[7:]    # todo: 去掉key 前面的 “module.” 即可。
+            single_model_dict[modified_key] = v
+    else:
+        single_model_dict = model_dict
+
+    return single_model_dict
+
+
+
 
 
 if __name__ == '__main__':
