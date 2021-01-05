@@ -56,6 +56,8 @@
        	   python -m pip install --upgrade twine
 	   python3 -m twine upload dist/*   (或者dist/*.whl)
 
+       【注意】 上传linux的包
+            xxx-linux_x86_64.whl 需要改名为  xxx-manylinux1_x86_64.whl
 
 
 
